@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Django Blog</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header">
+            <a href="{% url 'post-list' %}">
+                <span class="header-title">Home</span>
+            </a>
+            <div class="search-bar">
+                <form action="{% url 'posts-by-keyword' %}" id="search-form" class="search-form">
+                    <input type="search" class="search-text" name="q" placeholder="Search">
+                    <i class="search-btn"></i>
+                </form>
+            </div>
+        </header>
+        <div class="main">
+            <main class="content">
+
+                {% block content %}{% endblock %}
+
+                {% block pagination %}
+                    {% if is_paginated %}
+                        <div class="pagination">
+                          <span class="page-links">
+                          <span class="page-current">
+                              <p>Page {{ page_obj.number }}</p>
+                            </span>
+                              {% if page_obj.has_previous %}
+                                  <a class="page-prev" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                              {% endif %}
+                              {% if page_obj.has_next %}
+                                  <a class="page-next"
+                                     href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                              {% endif %}
+                          </span>
+                        </div>
+                    {% endif %}
+                {% endblock %}
+            </main>
+            <aside class="sidebar">
+                {% block sidebar %}
+                    <div class="sidebar-content">Sidebar</div>
+                {% endblock %}
+            </aside>
+        </div>
+    </div>
+</body>
+</html>
