@@ -1,19 +1,7 @@
-from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import generic
 
 from blog.models import Post
-
-
-"""def index(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, 3)  # Show 25 contacts per page
-    page = request.GET.get('page')
-    post_list_paginator = paginator.get_page(page)
-    context = {
-        'post_list': post_list_paginator
-    }
-    return render(request, 'blog/index.html', context)"""
 
 
 class PostListView(generic.ListView):
@@ -41,4 +29,3 @@ def get_posts_by_keyword(request):
         'post_list': post_list
     }
     return render(request, 'blog/index.html', context)
-

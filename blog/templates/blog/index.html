@@ -5,7 +5,6 @@
 
         {% for post in post_list %}
             <article class="post-item">
-                <img src="" alt="" class="post-thumbnail">
                 <a class="post-title" href="{% url 'post-detail' post.slug %}">
                     <h2>{{ post.title }}</h2>
                 </a>
@@ -18,7 +17,7 @@
                 </span>
 
                 <p>
-                    {{ post.body|safe|truncatewords:20 }}
+                    {{ post.summary }}
                     <a class="post-readmore" href="{% url 'post-detail' post.slug %}">Read more</a>
                 </p>
 
@@ -27,5 +26,3 @@
     </div>
 
 {% endblock %}
-
-

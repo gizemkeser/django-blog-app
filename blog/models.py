@@ -6,6 +6,8 @@ from django.utils.text import slugify
 class Post(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     title = models.CharField(max_length=50, unique=True)
+    summary = models.TextField()
+    thumbnail = models.ImageField(upload_to='thumbnails')
     body = RichTextUploadingField()
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     created_date = models.DateTimeField(null=True, auto_now_add=True)
