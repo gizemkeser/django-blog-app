@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 
 from django_blog_app import settings
 
@@ -24,6 +24,8 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/blog')),
     path('blog/', include('blog.urls')),
     path('admin/', admin.site.urls),
+    path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

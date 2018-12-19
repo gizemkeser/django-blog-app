@@ -1,15 +1,15 @@
 {% extends "blog/base_template.html" %}
 
 {% block content %}
-    <article class="post-item">
-        <a class="post-title" href="{% url 'post-detail' post.slug %}">
-            <h2>{{ post.title }}</h2>
-        </a>
-        <a href="{% url 'posts-by-category' post.category.name %}" class="post-category">{{ post.category }}</a>
+<div class="row justify-content-center">
+    <article class="post-detail">
+        <h2>{{ post.title }}</h2>
         <p>{{ post.body|safe }}</p>
-        <span>Tags: {{ post.display_tag }}</span>
-    <div>
-
-    </div>
+        <span>
+            {% for tag in post.tag.all %}
+                <a href=""><span class="badge badge-secondary post-tag">{{ tag }}</span></a>
+            {% endfor %}
+        </span>
     </article>
+</div>
 {% endblock %}

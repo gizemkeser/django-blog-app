@@ -14,8 +14,8 @@ class PostDetailView(generic.DetailView):
     model = Post
 
 
-def get_posts_by_category(request, category_name):
-    post_list = Post.objects.filter(category__name__iexact=category_name)
+def get_posts_by_tag(request, tag):
+    post_list = Post.objects.filter(tag__name__iexact=tag)
     context = {
         'post_list': post_list
     }

@@ -1,28 +1,63 @@
 {% extends "blog/base_template.html" %}
 
 {% block content %}
-    <div class="post-container">
+    <div class="post-list">
+        {% if post_list %}
+            {% for post in post_list %}
+                <article class="card shadow-sm rounded-0 mb-3">
 
-        {% for post in post_list %}
-            <article class="post-item">
-                <a class="post-title" href="{% url 'post-detail' post.slug %}">
-                    <h2>{{ post.title }}</h2>
-                </a>
-                <span class="post-detail">
-                    <a class="post-category" href="{% url 'posts-by-category' post.category.name.lower %}" >{{ post.category }}</a>
-                     /
-                    <span class="post-date">
-                    {{ post.last_modified_date.date }}
-                    </span>
-                </span>
+                    <div class="card-body">
+                        <a class="post-title" href="{% url 'post-detail' post.slug %}">
+                            <h2 class="card-title">{{ post.title }}</h2>
+                        </a>
 
-                <p>
-                    {{ post.summary }}
-                    <a class="post-readmore" href="{% url 'post-detail' post.slug %}">Read more</a>
-                </p>
+                        <p class="card-text">{{ post.summary|safe }}</p>
+                        <div>
+                            {% for tag in post.tag.all %}
+                                <a href="{% url 'posts-by-tag' tag.name.lower %}">
+                                    <span class="badge badge-secondary post-tag">{{ tag }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex bd-highlight mt-3 mb-3">
+                            <div class="bd-highlight">
+                                <p class="card-text">
+                            <small class="text-muted">Last updated on {{ post.last_modified_date.date }}</small>
+                        </p>
 
-            </article>
-        {% endfor %}
+                            </div>
+                            <div class="ml-auto p-2 bd-highlight">
+                                <p class="card-text">
+                                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'post-detail' post.slug %}">Read more</a>
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </article>
+            {% endfor %}
+            {% block pagination %}
+                {% if is_paginated %}
+                    <div class="d-flex bd-highlight mt-3 mb-3">
+                        {% if page_obj.has_previous %}
+                            <div class="bd-highlight">
+                                <a class="btn btn-sm btn-outline-secondary"
+                                   href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                            </div>
+                        {% endif %}
+                        {% if page_obj.has_next %}
+                            <div class="ml-auto p-2 bd-highlight">
+                                <a class="btn btn-sm btn-outline-secondary"
+                                   href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+        {% else %}
+            <h3 class="text-center">No posts found.</h3>
+        {% endif %}
     </div>
-
 {% endblock %}
